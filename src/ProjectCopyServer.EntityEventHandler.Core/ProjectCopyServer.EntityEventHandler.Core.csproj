@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>ProjectCopyServer.EntityEventHandler.Core</RootNamespace>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.Core" Version="7.0.2" />
+        <PackageReference Include="Volo.Abp.ObjectMapping" Version="7.0.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\ProjectCopyServer.Application\ProjectCopyServer.Application.csproj" />
+        <ProjectReference Include="..\ProjectCopyServer.Domain\ProjectCopyServer.Domain.csproj" />
+        <ProjectReference Include="..\ProjectCopyServer.Application.Contracts\ProjectCopyServer.Application.Contracts.csproj" />
+    </ItemGroup>
+
+   
+
+</Project>

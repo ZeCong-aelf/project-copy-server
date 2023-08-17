@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.7" />
+        <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="7.0.2" />
+        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="7.0.0" />
+        <PackageReference Include="Volo.Abp.Swashbuckle" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ProjectCopyServer.ContractEventHandler.Core\ProjectCopyServer.ContractEventHandler.Core.csproj" />
+      <ProjectReference Include="..\ProjectCopyServer.Grains\ProjectCopyServer.Grains.csproj" />
+      <ProjectReference Include="..\ProjectCopyServer.MongoDB\ProjectCopyServer.MongoDB.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="appsettings.json">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+</Project>
