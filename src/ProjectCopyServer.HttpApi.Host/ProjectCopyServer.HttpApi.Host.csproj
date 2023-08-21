@@ -26,9 +26,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ProjectCopyServer.Application\ProjectCopyServer.Application.csproj"/>
-        <ProjectReference Include="..\ProjectCopyServer.HttpApi\ProjectCopyServer.HttpApi.csproj"/>
-        <ProjectReference Include="..\ProjectCopyServer.MongoDB\ProjectCopyServer.MongoDB.csproj"/>
+        <ProjectReference Include="..\ProjectCopyServer.Application\ProjectCopyServer.Application.csproj" />
+        <ProjectReference Include="..\ProjectCopyServer.HttpApi\ProjectCopyServer.HttpApi.csproj" />
+        <ProjectReference Include="..\ProjectCopyServer.MongoDB\ProjectCopyServer.MongoDB.csproj" />
     </ItemGroup>
 
     <ItemGroup>

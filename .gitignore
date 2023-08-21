@@ -264,6 +264,7 @@ src/ProjectCopyServer.Blazor.Server.Tiered/Logs/*
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
 
+appsettings.json
 *.Development.json
 
 .git/
