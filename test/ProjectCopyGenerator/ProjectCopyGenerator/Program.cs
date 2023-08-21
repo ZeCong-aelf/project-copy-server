@@ -5,6 +5,7 @@ namespace ProjectCopyGenerator;
 
 internal static class Program
 {
+    private static IConfiguration? _config;
     private static string[] _ignorePatterns = Array.Empty<string>();
     private static string _sourceDirectory = string.Empty;
     private static string _targetDirectory = string.Empty;
@@ -18,21 +19,36 @@ internal static class Program
         EnsureTargetDirectoryIsEmpty(_targetDirectory);
 
         CopyAndRename(_sourceDirectory, _targetDirectory);
+
+        CreateAdditionalFiles();
     }
 
     private static void LoadConfigurations()
     {
-        IConfiguration config = new ConfigurationBuilder()
+        _config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 
-        _sourceDirectory = config["SourceDirectory"] ?? string.Empty;
-        _targetDirectory = config["TargetDirectory"] ?? string.Empty;
-        _oldName = config["NameMapping:From"] ?? string.Empty;
-        _newName = config["NameMapping:To"] ?? string.Empty;
-        _ignorePatterns = config.GetSection("IgnorePatterns").Get<string[]>() ?? Array.Empty<string>();
+        _sourceDirectory = _config["SourceDirectory"] ?? string.Empty;
+        _targetDirectory = _config["TargetDirectory"] ?? string.Empty;
+        _oldName = _config["NameMapping:From"] ?? string.Empty;
+        _newName = _config["NameMapping:To"] ?? string.Empty;
+        _ignorePatterns = _config.GetSection("IgnorePatterns").Get<string[]>() ?? Array.Empty<string>();
+        
     }
+
+    private static void CreateAdditionalFiles()
+    {
+        var addFilesSection = _config.GetSection("addFiles");
+        foreach (var item in addFilesSection.GetChildren())
+        {
+            var filePath = item.Key.Replace("{NameMappingTo}", _newName);
+            var fileContent = item.Value;
+            CreateFileWithContent(Path.Combine(_targetDirectory, filePath), fileContent);
+        }
+    }
+
 
     private static void EnsureTargetDirectoryIsEmpty(string targetDirectory)
     {
@@ -69,6 +85,16 @@ internal static class Program
             newFilePath = ReplaceNames(newFilePath);
             File.WriteAllText(newFilePath, ReplaceNames(File.ReadAllText(filePath)));
         }
+    }
+    
+    static void CreateFileWithContent(string path, string content)
+    {
+        var directory = Path.GetDirectoryName(path);
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+        File.WriteAllText(path, content);
     }
 
     private static string ReplaceNames(string input)
