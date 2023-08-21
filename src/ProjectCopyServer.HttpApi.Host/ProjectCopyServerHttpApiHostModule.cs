@@ -65,28 +65,9 @@ namespace ProjectCopyServer
             ConfigureRedis(context, configuration, hostingEnvironment);
             ConfigureCors(context, configuration);
             ConfigureSwaggerServices(context, configuration);
-            ConfigureAliyunBlob(configuration);
             ConfigureOrleans(context, configuration);
             ConfigureGraphQl(context, configuration);
             context.Services.AddAutoResponseWrapper();
-        }
-        
-        private void ConfigureAliyunBlob(IConfiguration configuration)
-        {
-            Configure<AbpBlobStoringOptions>(options =>
-            {
-                options.Containers.ConfigureDefault(container =>
-                {
-                    container.UseAliyun(config =>
-                    {
-                        config.AccessKeyId = configuration.GetValue<string>("AliyunBlob:AccessKeyId");
-                        config.AccessKeySecret = configuration.GetValue<string>("AliyunBlob:AccessKeySecret");
-                        config.Endpoint = configuration.GetValue<string>("AliyunBlob:Endpoint");
-                        config.ContainerName = configuration.GetValue<string>("AliyunBlob:ContainerName");
-                        config.CreateContainerIfNotExists = false;
-                    });
-                });
-            });
         }
 
         private void ConfigureCache(IConfiguration configuration)
