@@ -264,6 +264,11 @@ src/ProjectCopyServer.Blazor.Server.Tiered/Logs/*
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
 
+# Contract patcher dlls
+scripts/patcher/*
+*.c.cs
+*.g.cs
+
 appsettings.json
 *.Development.json
 
