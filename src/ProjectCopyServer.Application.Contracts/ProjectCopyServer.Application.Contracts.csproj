@@ -3,7 +3,7 @@
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0</TargetFrameworks>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>ProjectCopyServer</RootNamespace>
   </PropertyGroup>
 
@@ -26,6 +26,14 @@
     <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="7.0.0" />
     <PackageReference Include="AElf.Whitelist.Application.Contracts" Version="0.0.3" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <ContractReference Include="..\..\protobuf\authority_info.proto">
+      <Link>Protobuf\Proto\authority_info.proto</Link>
+    </ContractReference>
+    <ContractReference Include="..\..\protobuf\token_contract.proto">
+      <Link>Protobuf\Proto\token_contract.proto</Link>
+    </ContractReference>
+  </ItemGroup>
 
 </Project>
