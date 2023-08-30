@@ -9,7 +9,7 @@ namespace ProjectCopyServer.Controllers;
 
 [RemoteService]
 [Area("app")]
-[ControllerName("TestUser")]
+[ControllerName("UserControllerDemo")]
 [Route("api/app/users")]
 public class MyController : AbpController
 {
@@ -19,7 +19,8 @@ public class MyController : AbpController
     {
         _userAppService = userAppService;
     }
-
+    
+    /// delete this method, just a demo
     [HttpGet]
     public async Task<UserDto> AddUser()
     {

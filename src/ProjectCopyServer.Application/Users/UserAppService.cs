@@ -32,12 +32,14 @@ public class UserAppService : ProjectCopyServerAppService, IUserAppService
         _objectMapper = objectMapper;
     }
 
+    
+    /// delete this method, just a demo
     public async Task<UserDto> AddUserAsync()
     {
-        Dictionary<string, string> CaAddressSide = new Dictionary<string, string>()
+        Dictionary<string, string> caAddressSide = new Dictionary<string, string>()
         {
-            ["TDVV"] = "slk",
-            ["TDVW"] = "slk"
+            ["AELF"] = "slk",
+            ["TDVV"] = "slk"
         };
         UserSourceInput userSourceInput = new UserSourceInput
         {
@@ -45,7 +47,7 @@ public class UserAppService : ProjectCopyServerAppService, IUserAppService
             AelfAddress = "slk",
             CaHash = "slk",
             CaAddressMain = "slk",
-            CaAddressSide =  CaAddressSide
+            CaAddressSide =  caAddressSide
         };
         return await _userInformationProvider.SaveUserSourceAsync(userSourceInput);
     }

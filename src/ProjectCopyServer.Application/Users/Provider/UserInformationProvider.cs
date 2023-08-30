@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Orleans;
+using ProjectCopyServer.Common;
 using Serilog.Core;
 using ProjectCopyServer.Grains.Grain.Users;
 using ProjectCopyServer.Users.Dto;
@@ -31,14 +32,16 @@ public class UserInformationProvider: IUserInformationProvider, ISingletonDepend
         _distributedEventBus = distributedEventBus;
     }
 
+    /// delete this method, just a demo
     public async Task<UserDto> SaveUserSourceAsync(UserSourceInput userSourceInput)
     {
         try
         {
             var userGrain = _clusterClient.GetGrain<IUserGrain>(userSourceInput.UserId);
             var result = await userGrain.SaveUserSourceAsync(userSourceInput);
+            AssertHelper.IsTrue(result.Success, "Save user fail.");
             await _distributedEventBus.PublishAsync(
-                _objectMapper.Map<UserGrainDto, UserInformationEto>(result.Data));
+                _objectMapper.Map<UserGrainDto, UserInformationEto>(result.Data), false);
             return _objectMapper.Map<UserGrainDto, UserDto>(result.Data);
         }
         catch (Exception e)
@@ -48,8 +51,4 @@ public class UserInformationProvider: IUserInformationProvider, ISingletonDepend
         }
     }
 
-    public Task<UserIndex> GetByUserAddressAsync(string inputAddress)
-    {
-        throw new System.NotImplementedException();
-    }
 }
