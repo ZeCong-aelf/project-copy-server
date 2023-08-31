@@ -26,9 +26,6 @@ namespace ProjectCopyServer.EntityEventHandler
                 .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(configuration)
-#if DEBUG
-                .WriteTo.Async(c => c.Console())
-#endif
                 .CreateLogger();
 
             try

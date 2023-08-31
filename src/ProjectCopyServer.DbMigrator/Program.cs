@@ -23,8 +23,6 @@ class Program
                 .MinimumLevel.Override("ProjectCopyServer", LogEventLevel.Information)
 #endif
             .Enrich.FromLogContext()
-            .WriteTo.Async(c => c.File("Logs/logs.txt"))
-            .WriteTo.Async(c => c.Console())
             .CreateLogger();
 
         await CreateHostBuilder(args).RunConsoleAsync();

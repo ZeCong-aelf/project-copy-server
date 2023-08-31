@@ -26,9 +26,6 @@ namespace ProjectCopyServer.ContractEventHandler
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(configuration)
-#if DEBUG
-                .WriteTo.Async(c => c.Console())
-#endif
                 .CreateLogger();
 
             try
