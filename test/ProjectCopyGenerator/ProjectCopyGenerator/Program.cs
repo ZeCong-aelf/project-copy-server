@@ -7,6 +7,7 @@ internal static class Program
 {
     private static IConfiguration? _config;
     private static string[] _ignorePatterns = Array.Empty<string>();
+    private static List<string> _excludedExtensions = new List<string>();
     private static string _sourceDirectory = string.Empty;
     private static string _targetDirectory = string.Empty;
     private static string _oldName = string.Empty;
@@ -29,7 +30,8 @@ internal static class Program
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
-
+        
+        _excludedExtensions = _config.GetSection("ExcludedExtensions").Get<List<string>>() ?? new List<string>();
         _sourceDirectory = _config["SourceDirectory"] ?? string.Empty;
         _targetDirectory = _config["TargetDirectory"] ?? string.Empty;
         _oldName = _config["NameMapping:From"] ?? string.Empty;
@@ -83,8 +85,22 @@ internal static class Program
 
             var newFilePath = filePath.Replace(sourceDirectory, targetDirectory);
             newFilePath = ReplaceNames(newFilePath);
-            File.WriteAllText(newFilePath, ReplaceNames(File.ReadAllText(filePath)));
+
+            if (ShouldReplaceContent(filePath))
+            {
+                File.WriteAllText(newFilePath, ReplaceNames(File.ReadAllText(filePath)));
+            }
+            else
+            {
+                File.Copy(filePath, newFilePath, true);
+            }
         }
+    }
+    
+    private static bool ShouldReplaceContent(string filePath)
+    {
+        var extension = Path.GetExtension(filePath);
+        return !_excludedExtensions.Contains(extension);
     }
     
     static void CreateFileWithContent(string path, string content)
