@@ -1,19 +1,16 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Orleans;
 using ProjectCopyServer.Common;
-using Serilog.Core;
 using ProjectCopyServer.Grains.Grain.Users;
 using ProjectCopyServer.Users.Dto;
 using ProjectCopyServer.Users.Eto;
-using ProjectCopyServer.Users.Index;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.ObjectMapping;
 
-namespace ProjectCopyServer.Users.Provider;
+namespace ProjectCopyServer.Samples.Users.Provider;
 
 public class UserInformationProvider: IUserInformationProvider, ISingletonDependency
 {
@@ -32,21 +29,23 @@ public class UserInformationProvider: IUserInformationProvider, ISingletonDepend
         _distributedEventBus = distributedEventBus;
     }
 
-    /// delete this method, just a demo
     public async Task<UserDto> SaveUserSourceAsync(UserSourceInput userSourceInput)
     {
         try
         {
             var userGrain = _clusterClient.GetGrain<IUserGrain>(userSourceInput.UserId);
-            var result = await userGrain.SaveUserSourceAsync(userSourceInput);
+            var userGrainDto = _objectMapper.Map<UserSourceInput, UserGrainDto>(userSourceInput);
+            var result = await userGrain.UpdateUserAsync(userGrainDto);
             AssertHelper.IsTrue(result.Success, "Save user fail.");
+            
+            // publish event to wright data to ES
             await _distributedEventBus.PublishAsync(
                 _objectMapper.Map<UserGrainDto, UserInformationEto>(result.Data), false);
             return _objectMapper.Map<UserGrainDto, UserDto>(result.Data);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "ERRORRRR!");
+            _logger.LogError(e, "save error!");
             throw;
         }
     }

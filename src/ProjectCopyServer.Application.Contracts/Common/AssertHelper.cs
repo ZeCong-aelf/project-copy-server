@@ -11,7 +11,6 @@ public static class AssertHelper
 {
     private const int DefaultErrorCode = 50000;
     private const string DefaultErrorReason = "Assert failed";
-
     
     public static void IsTrue(bool expression, [CanBeNull] string reason, [ItemCanBeNull] params object[] args)
     {
@@ -19,9 +18,19 @@ public static class AssertHelper
     }
 
 
+    public static void IsEmpty([CanBeNull] string str, [CanBeNull] string reason, [ItemCanBeNull] params object[] args)
+    {
+        IsTrue(str.IsNullOrEmpty(), reason, args);
+    }
+
     public static void NotEmpty([CanBeNull] string str, [CanBeNull] string reason, [ItemCanBeNull] params object[] args)
     {
         IsTrue(!str.IsNullOrEmpty(), reason, args);
+    }
+    
+    public static void IsEmpty(Guid guid, [CanBeNull] string reason, [ItemCanBeNull] params object[] args)
+    {
+        IsTrue(guid == Guid.Empty, reason, args);
     }
     
     public static void NotEmpty(Guid guid, [CanBeNull] string reason, [ItemCanBeNull] params object[] args)
@@ -29,9 +38,19 @@ public static class AssertHelper
         IsTrue(guid != Guid.Empty, reason, args);
     }
     
+    public static void IsEmpty<T>([CanBeNull] IEnumerable<T> collection, [CanBeNull] string reason, [ItemCanBeNull] params object[] args)
+    {
+        IsTrue(collection.IsNullOrEmpty(), reason, args);
+    }
+
     public static void NotEmpty<T>([CanBeNull] IEnumerable<T> collection, [CanBeNull] string reason, [ItemCanBeNull] params object[] args)
     {
         IsTrue(!collection.IsNullOrEmpty(), reason, args);
+    }
+
+    public static void IsNull(object obj, [CanBeNull] string reason, [ItemCanBeNull] params object[] args)
+    {
+        IsTrue(obj == null, reason, args);
     }
 
     public static void NotNull(object obj, [CanBeNull] string reason, [ItemCanBeNull] params object[] args)

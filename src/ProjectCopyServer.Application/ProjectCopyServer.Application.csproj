@@ -35,6 +35,10 @@
     <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="5.1.0" />
     <PackageReference Include="GraphQL.Client" Version="5.1.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Samples\" />
+  </ItemGroup>
   
 
 </Project>

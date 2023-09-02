@@ -6,7 +6,7 @@ using ProjectCopyServer.Entities;
 
 namespace ProjectCopyServer.Users.Index;
 
-public class UserIndex : SymbolMarketEntity<Guid>, IIndexBuild
+public class UserIndex : AbstractEntity<Guid>, IIndexBuild
 {
     [Keyword] public string Name { get; set; }
     [Keyword] public string UserName { get; set; }

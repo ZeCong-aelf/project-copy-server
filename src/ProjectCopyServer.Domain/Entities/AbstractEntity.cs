@@ -2,16 +2,16 @@ using Volo.Abp.Domain.Entities;
 
 namespace ProjectCopyServer.Entities;
 
-public abstract class SymbolMarketEntity<TKey> : Entity, IEntity<TKey>
+public abstract class AbstractEntity<TKey> : Entity, IEntity<TKey>
 {
     /// <inheritdoc/>
     public virtual TKey Id { get; set; }
 
-    protected SymbolMarketEntity()
+    protected AbstractEntity()
     {
     }
 
-    protected SymbolMarketEntity(TKey id)
+    protected AbstractEntity(TKey id)
     {
         Id = id;
     }

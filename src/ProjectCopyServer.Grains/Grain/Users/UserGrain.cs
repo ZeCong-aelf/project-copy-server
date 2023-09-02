@@ -25,6 +25,7 @@ public class UserGrain : Grain<UserState>, IUserGrain
         await WriteStateAsync();
         await base.OnDeactivateAsync();
     }
+    
     public async Task<GrainResultDto<UserGrainDto>> UpdateUserAsync(UserGrainDto input)
     {
         State = _objectMapper.Map<UserGrainDto, UserState>(input);
@@ -42,58 +43,12 @@ public class UserGrain : Grain<UserState>, IUserGrain
         };
     }
 
-    public async Task<GrainResultDto<UserGrainDto>> SaveUserSourceAsync(UserSourceInput userSourceInput)
+    public Task<GrainResultDto<UserGrainDto>> GetUserAsync()
     {
-        if (State == null || State.Id == Guid.Empty)
-        {
-            State = new UserState
-            {
-                Id = userSourceInput.UserId,
-                CaHash = userSourceInput.CaHash,
-                AelfAddress = userSourceInput.AelfAddress,
-                CaAddressMain = userSourceInput.CaAddressMain,
-                CaAddressSide = userSourceInput.CaAddressSide,
-            };
-        }
-        else
-        {
-            if (String.IsNullOrEmpty(State.AelfAddress))
-            {
-                State.AelfAddress = userSourceInput.AelfAddress;
-            }
-
-            if (String.IsNullOrEmpty(State.CaHash))
-            {
-                State.CaHash = userSourceInput.CaHash;
-            }
-            
-            if (String.IsNullOrEmpty(State.CaAddressMain))
-            {
-                State.CaAddressMain = userSourceInput.CaAddressMain;
-            }
-
-            State.CaAddressSide ??= new Dictionary<string, string>();
-            if (userSourceInput.CaAddressSide != null)
-            {
-                State.CaAddressSide = State.CaAddressSide.Union(userSourceInput.CaAddressSide).ToDictionary(x => x.Key, x => x.Value);
-            }
-
-        }
-
-        await WriteStateAsync();
-        return new GrainResultDto<UserGrainDto>()
+        return Task.FromResult(new GrainResultDto<UserGrainDto>()
         {
             Success = true,
             Data = _objectMapper.Map<UserState, UserGrainDto>(State)
-        };
-    }
-
-    public async Task<GrainResultDto<UserGrainDto>> GetUserAsync()
-    {
-        return new GrainResultDto<UserGrainDto>()
-        {
-            Success = true,
-            Data = _objectMapper.Map<UserState, UserGrainDto>(State)
-        };
+        });
     }
 }
