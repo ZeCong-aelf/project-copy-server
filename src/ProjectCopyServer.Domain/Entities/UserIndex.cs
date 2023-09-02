@@ -24,6 +24,9 @@ public class UserIndex : AbstractEntity<Guid>, IIndexBuild
     public string ProfileImage { get; set; }
     public string ProfileImageOriginal { get; set; }
     public string BannerImage { get; set; }
+    
+    public long CreateTime { get; set; }
+    public long UpdateTime { get; set; }
 
     public UserIndex ShallowCopy()
     {

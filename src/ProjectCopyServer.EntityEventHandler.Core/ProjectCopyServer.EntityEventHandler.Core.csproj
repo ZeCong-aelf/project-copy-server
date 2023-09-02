@@ -16,6 +16,10 @@
         <ProjectReference Include="..\ProjectCopyServer.Domain\ProjectCopyServer.Domain.csproj" />
         <ProjectReference Include="..\ProjectCopyServer.Application.Contracts\ProjectCopyServer.Application.Contracts.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Samples\" />
+    </ItemGroup>
 
    
 

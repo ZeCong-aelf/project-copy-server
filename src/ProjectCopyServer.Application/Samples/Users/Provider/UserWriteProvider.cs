@@ -12,16 +12,22 @@ using Volo.Abp.ObjectMapping;
 
 namespace ProjectCopyServer.Samples.Users.Provider;
 
-public class UserInformationProvider: IUserInformationProvider, ISingletonDependency
+public interface IUserWriteProvider
 {
-    private readonly ILogger<UserInformationProvider> _logger;
+    public Task<UserDto> SaveUserAsync(UserGrainDto userSourceInput);
+
+}
+
+public class UserWriteProvider: IUserWriteProvider, ISingletonDependency
+{
+    private readonly ILogger<UserWriteProvider> _logger;
     private readonly IClusterClient _clusterClient;
     private readonly IObjectMapper _objectMapper;
     private readonly IDistributedEventBus _distributedEventBus;
     
     
-    public UserInformationProvider(IClusterClient clusterClient, IObjectMapper objectMapper, 
-                                   ILogger<UserInformationProvider> logger,IDistributedEventBus distributedEventBus)
+    public UserWriteProvider(IClusterClient clusterClient, IObjectMapper objectMapper, 
+                                   ILogger<UserWriteProvider> logger,IDistributedEventBus distributedEventBus)
     {
         _clusterClient = clusterClient;
         _objectMapper = objectMapper;
@@ -29,12 +35,11 @@ public class UserInformationProvider: IUserInformationProvider, ISingletonDepend
         _distributedEventBus = distributedEventBus;
     }
 
-    public async Task<UserDto> SaveUserSourceAsync(UserSourceInput userSourceInput)
+    public async Task<UserDto> SaveUserAsync(UserGrainDto userGrainDto)
     {
         try
         {
-            var userGrain = _clusterClient.GetGrain<IUserGrain>(userSourceInput.UserId);
-            var userGrainDto = _objectMapper.Map<UserSourceInput, UserGrainDto>(userSourceInput);
+            var userGrain = _clusterClient.GetGrain<IUserGrain>(userGrainDto.Id);
             var result = await userGrain.UpdateUserAsync(userGrainDto);
             AssertHelper.IsTrue(result.Success, "Save user fail.");
             

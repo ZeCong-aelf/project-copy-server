@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AElf.Indexing.Elasticsearch;
 using Microsoft.Extensions.Logging;
@@ -9,9 +8,8 @@ using ProjectCopyServer.Users.Eto;
 using ProjectCopyServer.Users.Index;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.ObjectMapping;
 
-namespace ProjectCopyServer.EntityEventHandler.Core;
+namespace ProjectCopyServer.EntityEventHandler.Core.Samples.User;
 
 public class UserUpdateHandler : IDistributedEventHandler<UserInformationEto>, ITransientDependency
 {
@@ -30,7 +28,6 @@ public class UserUpdateHandler : IDistributedEventHandler<UserInformationEto>, I
         try
         {
             AssertHelper.NotNull(eventData.Data, "UserEto empty");
-            
             await _userRepository.AddOrUpdateAsync(eventData.Data);
             _logger.LogDebug("User information add or update success: {UserId}", eventData.Data.Id);
         }

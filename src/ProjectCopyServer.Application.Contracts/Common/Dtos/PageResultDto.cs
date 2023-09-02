@@ -10,7 +10,7 @@ public class PageResultDto<T>
         TotalRecordCount = 0;
     }
 
-    public PageResultDto(List<T> data, long totalRecordCount)
+    public PageResultDto(long totalRecordCount, List<T> data)
     {
         Data = data;
         TotalRecordCount = totalRecordCount;

@@ -1,4 +1,5 @@
 using Orleans;
+using ProjectCopyServer.Common;
 using ProjectCopyServer.Grains.State.Users;
 using ProjectCopyServer.Users.Dto;
 using Volo.Abp.ObjectMapping;
@@ -34,6 +35,10 @@ public class UserGrain : Grain<UserState>, IUserGrain
             State.Id = this.GetPrimaryKey();
         }
 
+        var now = DateTime.UtcNow.ToUtcMilliSeconds();
+        State.CreateTime = State.CreateTime == 0 ? now : State.CreateTime;
+        State.UpdateTime = now;
+        
         await WriteStateAsync();
 
         return new GrainResultDto<UserGrainDto>()
