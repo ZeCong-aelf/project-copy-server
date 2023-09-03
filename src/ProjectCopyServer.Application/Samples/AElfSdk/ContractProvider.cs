@@ -25,7 +25,7 @@ public class ContractProvider : IContractProvider
     private readonly Dictionary<string, AElfClient> _clients = new();
     private readonly Dictionary<string, SenderAccount> _accounts = new();
     private readonly Dictionary<string, string> _emptyDict = new();
-    private readonly Dictionary<string, string> _contractAddress = new();
+    private readonly Dictionary<string, Dictionary<string, string>> _contractAddress = new();
 
     private readonly ChainOption _chainOption;
     private readonly ILogger<ContractProvider> _logger;
@@ -73,19 +73,20 @@ public class ContractProvider : IContractProvider
 
     private string ContractAddress(string chainId, string contractName)
     {
-        return _contractAddress.GetOrAdd(contractName, name =>
+        var contractAddress = _contractAddress.GetOrAdd(chainId, _ => new Dictionary<string, string>());
+        return contractAddress.GetOrAdd(contractName, name =>
         {
-            var contractAddress = _chainOption.ContractAddress
+            var address = _chainOption.ContractAddress
                 .GetValueOrDefault(chainId, _emptyDict)
                 .GetValueOrDefault(name, null);
-            if (contractAddress.IsNullOrEmpty() && SystemContractName.All.Contains(name))
-                contractAddress = AsyncHelper
+            if (address.IsNullOrEmpty() && SystemContractName.All.Contains(name))
+                address = AsyncHelper
                     .RunSync(() => Client(chainId).GetContractAddressByNameAsync(HashHelper.ComputeFrom(name)))
                     .ToBase58();
 
-            AssertHelper.NotNull(contractAddress, "Address of contract {contractName} on {chainId} not exits.",
+            AssertHelper.NotEmpty(address, "Address of contract {contractName} on {chainId} not exits.",
                 name, chainId);
-            return contractAddress;
+            return address;
         });
     }
 
@@ -114,7 +115,7 @@ public class ContractProvider : IContractProvider
         transaction.Signature = account.GetSignatureWith(transactionId.ToByteArray());
         return transactionId;
     }
-    
+
     public async Task SendTransactionAsync(string chainId, Transaction transaction)
     {
         var client = Client(chainId);
