@@ -36,10 +36,16 @@ public class UserQueryProvider : IUserQueryProvider, ISingletonDependency
     /// <returns></returns>
     public async Task<PageResultDto<UserIndex>> QueryUserPagerAsync(UserQueryRequestDto requestDto)
     {
-        var mustQuery = new List<Func<QueryContainerDescriptor<UserIndex>, QueryContainer>>() { };
+        var mustQuery = new List<Func<QueryContainerDescriptor<UserIndex>, QueryContainer>>{ };
 
         if (requestDto.UserId != Guid.Empty)
             mustQuery.Add(q => q.Term(i => i.Field(f => f.Id).Value(requestDto.UserId)));
+        
+        if (!requestDto.Name.IsNullOrEmpty()) 
+            mustQuery.Add(q => q.Term(i => i.Field(f => f.Name).Value(requestDto.Name)));
+
+        if (!requestDto.Address.IsNullOrEmpty()) 
+            mustQuery.Add(q => q.Term(i => i.Field(f => f.AelfAddress).Value(requestDto.Address)));
 
         
         QueryContainer Filter(QueryContainerDescriptor<UserIndex> f) => f.Bool(b => b.Must(mustQuery));
@@ -48,4 +54,5 @@ public class UserQueryProvider : IUserQueryProvider, ISingletonDependency
         var (totalCount, notifyRulesIndices) = await _userIndexResp.GetSortListAsync(Filter, sortFunc: Sort);
         return new PageResultDto<UserIndex>(totalCount, notifyRulesIndices);
     }
+    
 }
