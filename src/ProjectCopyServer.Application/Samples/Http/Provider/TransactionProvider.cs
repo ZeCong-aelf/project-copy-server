@@ -27,7 +27,7 @@ public static class NodeApi
 public class TransactionProvider : ITransactionProvider, ISingletonDependency
 {
 
-    private readonly ApiOption _apiOption;
+    private readonly ChainOption _chainOption;
     private readonly IHttpProvider _httpProvider;
 
     private static readonly Dictionary<string, string> AcceptJsonHeader = new()
@@ -35,16 +35,16 @@ public class TransactionProvider : ITransactionProvider, ISingletonDependency
         ["Accept"] = "application/json"
     };
 
-    public TransactionProvider(IOptions<ApiOption> options, IHttpProvider httpProvider)
+    public TransactionProvider(IOptions<ChainOption> options, IHttpProvider httpProvider)
     {
-        _apiOption = options.Value;
+        _chainOption = options.Value;
         _httpProvider = httpProvider;
     }
 
 
     public async Task<TransactionResultDto> GetTransactionResultAsync(string transactionId, string chainId = "AELF")
     {
-        var endpoint = _apiOption.ChainNodeApis.GetValueOrDefault(chainId);
+        var endpoint = _chainOption.NodeApis.GetValueOrDefault(chainId);
         AssertHelper.NotEmpty(endpoint, "chainId {ChainId} node api not found", chainId);
         
         return await _httpProvider.Invoke<TransactionResultDto>(endpoint, NodeApi.TransactionResult,

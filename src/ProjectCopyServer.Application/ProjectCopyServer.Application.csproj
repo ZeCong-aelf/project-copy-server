@@ -38,6 +38,9 @@
 
   <ItemGroup>
     <Folder Include="Common\" />
+    <Folder Include="Samples\Cache\" />
+    <Folder Include="Samples\DistributedLock\" />
+    <Folder Include="Samples\GraphQL\" />
   </ItemGroup>
   
 

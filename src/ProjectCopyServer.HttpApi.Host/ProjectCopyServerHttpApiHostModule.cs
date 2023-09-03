@@ -57,7 +57,7 @@ namespace ProjectCopyServer
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
-            Configure<ApiOption>(configuration.GetSection("Api"));
+            Configure<ChainOption>(configuration.GetSection("ChainOption"));
 
             ConfigureConventionalControllers();
             // ConfigureAuthentication(context, configuration);
