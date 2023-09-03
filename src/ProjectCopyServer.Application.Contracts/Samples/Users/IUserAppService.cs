@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
 using ProjectCopyServer.Common.Dtos;
+using ProjectCopyServer.Samples.Users.Dto;
 using ProjectCopyServer.Users.Dto;
 
-namespace ProjectCopyServer.Users;
+namespace ProjectCopyServer.Samples.Users;
 
 public interface IUserAppService
 {
@@ -13,6 +14,11 @@ public interface IUserAppService
     /// <returns></returns>
     Task<UserDto> AddUserAsync(UserSourceInput userSourceInput);
 
+    /// <summary>
+    ///     query single user by id
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     Task<UserDto> GetById(string userId);
     
     /// <summary>

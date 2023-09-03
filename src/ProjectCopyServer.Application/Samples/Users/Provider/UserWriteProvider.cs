@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Orleans;
 using ProjectCopyServer.Common;
 using ProjectCopyServer.Grains.Grain.Users;
-using ProjectCopyServer.Users.Dto;
+using ProjectCopyServer.Samples.Users.Dto;
 using ProjectCopyServer.Users.Eto;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;

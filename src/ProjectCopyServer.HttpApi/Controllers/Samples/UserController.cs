@@ -1,9 +1,8 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectCopyServer.Common.Dtos;
-using ProjectCopyServer.Users;
+using ProjectCopyServer.Samples.Users;
+using ProjectCopyServer.Samples.Users.Dto;
 using ProjectCopyServer.Users.Dto;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
@@ -12,13 +11,13 @@ namespace ProjectCopyServer.Controllers.Samples;
 
 [RemoteService]
 [Area("app")]
-[ControllerName("UserControllerDemo")]
+[ControllerName("SampleDemo")]
 [Route("api/app/users")]
-public class MyController : AbpController
+public class UserDemoController : AbpController
 {
     private readonly IUserAppService _userAppService;
 
-    public MyController(IUserAppService userAppService)
+    public UserDemoController(IUserAppService userAppService)
     {
         _userAppService = userAppService;
     }
@@ -29,7 +28,7 @@ public class MyController : AbpController
     {
         return await _userAppService.AddUserAsync(userSourceInput);
     }
-    
+
     /// post method used to query data
     [HttpGet]
     public async Task<UserDto> GetUserById(string userId)
@@ -37,8 +36,7 @@ public class MyController : AbpController
         return await _userAppService.GetById(userId);
     }
 
-    [HttpGet]
-    [HttpPatch("/page")]
+    [HttpGet("/page")]
     public async Task<PageResultDto<UserDto>> QueryUserPager(string address)
     {
         return await _userAppService.QueryUserPagerAsync(new UserQueryRequestDto(0, 10)
@@ -46,6 +44,4 @@ public class MyController : AbpController
             Address = address
         });
     }
-    
-    
 }

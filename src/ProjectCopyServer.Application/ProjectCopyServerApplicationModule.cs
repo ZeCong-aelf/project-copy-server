@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using ProjectCopyServer.Grains;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
@@ -29,5 +30,7 @@ public class ProjectCopyServerApplicationModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ProjectCopyServerApplicationModule>(); });
+        
+        context.Services.AddHttpClient();
     }
 }

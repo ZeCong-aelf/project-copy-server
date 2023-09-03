@@ -20,6 +20,7 @@ using Orleans.Providers.MongoDB.Configuration;
 using StackExchange.Redis;
 using ProjectCopyServer.Grains;
 using ProjectCopyServer.MongoDB;
+using ProjectCopyServer.Options;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
@@ -56,6 +57,7 @@ namespace ProjectCopyServer
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
+            Configure<ApiOption>(configuration.GetSection("Api"));
 
             ConfigureConventionalControllers();
             // ConfigureAuthentication(context, configuration);

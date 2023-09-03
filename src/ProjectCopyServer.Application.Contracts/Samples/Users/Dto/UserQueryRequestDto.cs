@@ -1,7 +1,7 @@
 using System;
 using Volo.Abp.Application.Dtos;
 
-namespace ProjectCopyServer.Users.Dto;
+namespace ProjectCopyServer.Samples.Users.Dto;
 
 public class UserQueryRequestDto : PagedResultRequestDto
 {

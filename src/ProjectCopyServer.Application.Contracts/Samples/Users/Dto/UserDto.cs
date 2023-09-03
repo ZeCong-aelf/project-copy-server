@@ -1,4 +1,4 @@
-namespace ProjectCopyServer.Users.Dto;
+namespace ProjectCopyServer.Samples.Users.Dto;
 
 public class UserDto
 {

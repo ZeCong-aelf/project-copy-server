@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Samples\" />
+    <Folder Include="Common\" />
   </ItemGroup>
   
 

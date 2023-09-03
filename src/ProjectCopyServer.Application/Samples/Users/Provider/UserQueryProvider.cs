@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AElf.Indexing.Elasticsearch;
 using Nest;
 using ProjectCopyServer.Common.Dtos;
+using ProjectCopyServer.Samples.Users.Dto;
 using ProjectCopyServer.Users.Dto;
 using ProjectCopyServer.Users.Index;
 using Volo.Abp.DependencyInjection;
