@@ -32,6 +32,12 @@
         <Orleans_CodeGenInputs Remove="Grain\CollectionCreationJob\CollectionCreationJobGrain.cs" />
         <Orleans_CodeGenInputs Remove="Grain\CollectionCreationJob\CollectionCreationJobGrainDto.cs" />
         <Orleans_CodeGenInputs Remove="Grain\CollectionCreationJob\ICollectionCreationJobGrain.cs" />
+        <Orleans_CodeGenInputs Remove="State\NFTInfo\NftCollectionExtensionState.cs" />
+        <Orleans_CodeGenInputs Remove="State\NFTInfo\NftInfoExtensionState.cs" />
+        <Orleans_CodeGenInputs Remove="Grain\NFTInfo\INFTCollectionExtensionGrain.cs" />
+        <Orleans_CodeGenInputs Remove="Grain\NFTInfo\INftInfoExtensionGrain.cs" />
+        <Orleans_CodeGenInputs Remove="Grain\NFTInfo\NftCollectionExtensionGrainDto.cs" />
+        <Orleans_CodeGenInputs Remove="Grain\NFTInfo\NftInfoExtensionGrainDto.cs" />
     </ItemGroup>
     
     <ItemGroup>
