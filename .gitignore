@@ -265,6 +265,7 @@ src/ProjectCopyServer.Blazor.Server.Tiered/Logs/*
 **/wwwroot/libs/*
 
 # Contract patcher dlls
+scripts/contract_csharp_plugin
 scripts/patcher/*
 *.c.cs
 *.g.cs
