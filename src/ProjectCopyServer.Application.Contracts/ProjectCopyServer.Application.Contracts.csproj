@@ -38,4 +38,8 @@
     </ContractReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="contract_csharp_plugin-v1.0.3-osx.zip" />
+  </ItemGroup>
+
 </Project>
