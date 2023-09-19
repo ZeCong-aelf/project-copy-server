@@ -10,5 +10,10 @@ public static class StringHelper
     {
         return source.IsNullOrEmpty() ? defaultVal : source;
     }
+        
+    public static bool NotNullOrEmpty([CanBeNull] this string source, string defaultVal)
+    {
+        return !source.IsNullOrEmpty();
+    }
     
 }

@@ -4,13 +4,14 @@ using Microsoft.Extensions.Logging;
 using Orleans;
 using ProjectCopyServer.Common;
 using ProjectCopyServer.Grains.Grain.Users;
+using ProjectCopyServer.Samples.Users;
 using ProjectCopyServer.Samples.Users.Dto;
-using ProjectCopyServer.Users.Eto;
+using ProjectCopyServer.Samples.Users.Eto;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.ObjectMapping;
 
-namespace ProjectCopyServer.Samples.Users.Provider;
+namespace ProjectCopyServer.Samples.User.Provider;
 
 public interface IUserWriteProvider
 {

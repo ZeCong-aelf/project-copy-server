@@ -1,10 +1,19 @@
 using Orleans;
 using ProjectCopyServer.Common;
 using ProjectCopyServer.Grains.State.Users;
-using ProjectCopyServer.Users.Dto;
+using ProjectCopyServer.Samples.Users;
 using Volo.Abp.ObjectMapping;
 
 namespace ProjectCopyServer.Grains.Grain.Users;
+
+public interface IUserGrain : IGrainWithGuidKey
+{
+
+    Task<GrainResultDto<UserGrainDto>> UpdateUserAsync(UserGrainDto input);
+
+    Task<GrainResultDto<UserGrainDto>> GetUserAsync();
+
+}
 
 public class UserGrain : Grain<UserState>, IUserGrain
 {

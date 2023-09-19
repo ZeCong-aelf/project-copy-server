@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectCopyServer.Common.Dtos;
 using ProjectCopyServer.Samples.Users;
 using ProjectCopyServer.Samples.Users.Dto;
-using ProjectCopyServer.Users.Dto;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 

@@ -1,5 +1,6 @@
 
 using AutoMapper;
+using ProjectCopyServer.Samples.Users.Eto;
 using ProjectCopyServer.Users.Eto;
 using ProjectCopyServer.Users.Index;
 

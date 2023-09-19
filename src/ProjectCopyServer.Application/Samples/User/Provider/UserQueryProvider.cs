@@ -5,12 +5,11 @@ using AElf.Indexing.Elasticsearch;
 using Nest;
 using ProjectCopyServer.Common.Dtos;
 using ProjectCopyServer.Samples.Users.Dto;
-using ProjectCopyServer.Users.Dto;
 using ProjectCopyServer.Users.Index;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.ObjectMapping;
 
-namespace ProjectCopyServer.Samples.Users.Provider;
+namespace ProjectCopyServer.Samples.User.Provider;
 
 public interface IUserQueryProvider
 {
@@ -19,10 +18,10 @@ public interface IUserQueryProvider
 
 public class UserQueryProvider : IUserQueryProvider, ISingletonDependency
 {
-    private readonly NESTRepository<UserIndex, Guid> _userIndexResp;
+    private readonly INESTRepository<UserIndex, Guid> _userIndexResp;
     private readonly IObjectMapper _objectMapper;
 
-    public UserQueryProvider(NESTRepository<UserIndex, Guid> userIndexResp, IObjectMapper objectMapper)
+    public UserQueryProvider(INESTRepository<UserIndex, Guid> userIndexResp, IObjectMapper objectMapper)
     {
         _userIndexResp = userIndexResp;
         _objectMapper = objectMapper;

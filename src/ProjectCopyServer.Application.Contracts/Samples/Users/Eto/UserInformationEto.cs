@@ -1,9 +1,9 @@
-using ProjectCopyServer.Users.Index;
+using ProjectCopyServer.Users.Eto;
 using Volo.Abp.EventBus;
 
-namespace ProjectCopyServer.Users.Eto;
+namespace ProjectCopyServer.Samples.Users.Eto;
 
 [EventName("UserInformationEto")]
-public class UserInformationEto : AbstractEto<UserIndex>
+public class UserInformationEto : AbstractEto<UserGrainDto>
 {
 }

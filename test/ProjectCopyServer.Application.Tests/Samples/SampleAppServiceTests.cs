@@ -1,6 +1,9 @@
-using Shouldly;
+using System;
 using System.Threading.Tasks;
-using Volo.Abp.Identity;
+using AElf;
+using ProjectCopyServer.Samples.Users;
+using ProjectCopyServer.Samples.Users.Dto;
+using Shouldly;
 using Xunit;
 
 namespace ProjectCopyServer.Samples;
@@ -11,23 +14,36 @@ namespace ProjectCopyServer.Samples;
  * Only test your own application services.
  */
 [Collection(ProjectCopyServerTestConsts.CollectionDefinitionName)]
-public class SampleAppServiceTests : ProjectCopyServerApplicationTestBase
+public class UserSampleAppServiceTests : ProjectCopyServerApplicationTestBase
 {
-    private readonly IIdentityUserAppService _userAppService;
+    private readonly IUserAppService _userAppService;
 
-    public SampleAppServiceTests()
+    public UserSampleAppServiceTests()
     {
-        _userAppService = GetRequiredService<IIdentityUserAppService>();
+        _userAppService = GetRequiredService<IUserAppService>();
     }
 
     [Fact]
-    public async Task Initial_Data_Should_Contain_Admin_User()
+    public async Task AddQuery()
     {
-        //Act
-        var result = await _userAppService.GetListAsync(new GetIdentityUsersInput());
+        var userId = Guid.NewGuid();
+        var user = new UserSourceInput()
+        {
+            Id = userId,
+            Name = "Alice",
+            AelfAddress = "5jdh2RSNkogQ4wj3BpzC8hdAgnK6tAuQmq454SNdUCqCzLruR",
+            CaHash = HashHelper.ComputeFrom("").ToHex(),
+        };
+        
+        var result = await _userAppService.AddUserAsync(user);
+        result.Id.ShouldBe(userId);
+        result.Name.ShouldBe("Alice");
 
-        //Assert
-        result.TotalCount.ShouldBeGreaterThan(0);
-        result.Items.ShouldContain(u => u.UserName == "admin");
+
+        var query = await _userAppService.GetById(userId.ToString());
+        query.ShouldNotBeNull();
+        query.Id.ShouldBe(userId);
+        result.Name.ShouldBe("Alice");
+
     }
 }

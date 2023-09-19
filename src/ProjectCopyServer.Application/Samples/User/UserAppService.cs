@@ -4,15 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using ProjectCopyServer.Common.Dtos;
-using ProjectCopyServer.Grains.Grain.Users;
+using ProjectCopyServer.Samples.User.Provider;
+using ProjectCopyServer.Samples.Users;
 using ProjectCopyServer.Samples.Users.Dto;
-using ProjectCopyServer.Samples.Users.Provider;
-using ProjectCopyServer.Users;
-using ProjectCopyServer.Users.Dto;
 using ProjectCopyServer.Users.Index;
 using Volo.Abp.ObjectMapping;
 
-namespace ProjectCopyServer.Samples.Users;
+namespace ProjectCopyServer.Samples.User;
 
 public class UserAppService : ProjectCopyServerAppService, IUserAppService
 {
@@ -33,8 +31,6 @@ public class UserAppService : ProjectCopyServerAppService, IUserAppService
         _userQueryProvider = userQueryProvider;
     }
 
-    
-    /// delete this method, just a demo
     public async Task<UserDto> AddUserAsync(UserSourceInput userSourceInput)
     {
         var userGrainDto = _objectMapper.Map<UserSourceInput, UserGrainDto>(userSourceInput);
@@ -47,11 +43,7 @@ public class UserAppService : ProjectCopyServerAppService, IUserAppService
         {
             UserId = Guid.Parse(userId)
         });
-        if (pager.Data.IsNullOrEmpty())
-        {
-            return null;
-        }
-        return _objectMapper.Map<UserIndex, UserDto>(pager.Data.First());
+        return pager.Data.IsNullOrEmpty() ? null : _objectMapper.Map<UserIndex, UserDto>(pager.Data.First());
     }
 
     public async Task<PageResultDto<UserDto>> QueryUserPagerAsync(UserQueryRequestDto requestDto)

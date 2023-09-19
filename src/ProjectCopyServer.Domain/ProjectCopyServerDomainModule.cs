@@ -1,4 +1,5 @@
 using AElf.Indexing.Elasticsearch;
+using AElf.Indexing.Elasticsearch.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ProjectCopyServer.MultiTenancy;
@@ -39,8 +40,10 @@ namespace ProjectCopyServer;
 )]
 public class ProjectCopyServerDomainModule : AbpModule
 {
+    
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        ConfigureEsIndexCreation();
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Languages.Add(new LanguageInfo("ar", "ar", "العربية", "ae"));
@@ -71,5 +74,10 @@ public class ProjectCopyServerDomainModule : AbpModule
 #if DEBUG
         context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
 #endif
+    }
+    
+    private void ConfigureEsIndexCreation()
+    {
+        Configure<IndexCreateOption>(x => { x.AddModule(typeof(ProjectCopyServerDomainModule)); });
     }
 }
