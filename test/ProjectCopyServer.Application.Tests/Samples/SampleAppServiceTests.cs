@@ -8,12 +8,6 @@ using Xunit;
 
 namespace ProjectCopyServer.Samples;
 
-/* This is just an example test class.
- * Normally, you don't test code of the modules you are using
- * (like IIdentityUserAppService here).
- * Only test your own application services.
- */
-[Collection(ProjectCopyServerTestConsts.CollectionDefinitionName)]
 public class UserSampleAppServiceTests : ProjectCopyServerApplicationTestBase
 {
     private readonly IUserAppService _userAppService;

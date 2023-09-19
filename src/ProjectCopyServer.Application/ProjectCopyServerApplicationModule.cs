@@ -27,7 +27,6 @@ public class ProjectCopyServerApplicationModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ProjectCopyServerApplicationModule>(); });
-        Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ProjectCopyServerDomainModule>(); });
         
         context.Services.AddHttpClient();
     }
