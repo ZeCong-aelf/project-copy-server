@@ -1,25 +1,24 @@
-
 using System.Collections.Generic;
 
 namespace ProjectCopyServer.Samples.AElfSdk.Dtos;
 
 public class SystemContractName
 {
-    public static string System_BasicContractZero = "";
-    public static string System_CrossChainContract = "AElf.ContractNames.CrossChain";
-    public static string System_TokenContract = "AElf.ContractNames.Token";
-    public static string System_ParliamentContract = "AElf.ContractNames.Parliament";
-    public static string System_ConsensusContract = "AElf.ContractNames.Consensus";
-    public static string System_ReferendumContract = "AElf.ContractNames.Referendum";
-    public static string System_TreasuryContract = "AElf.ContractNames.Treasury";
-    public static string System_AssociationContract = "AElf.ContractNames.Association";
-    public static string System_TokenConverterContract = "AElf.ContractNames.TokenConverter";
+    public const string SystemBasicContractZero = "";
+    public const string SystemCrossChainContract = "AElf.ContractNames.CrossChain";
+    public const string SystemTokenContract = "AElf.ContractNames.Token";
+    public const string SystemParliamentContract = "AElf.ContractNames.Parliament";
+    public const string SystemConsensusContract = "AElf.ContractNames.Consensus";
+    public const string SystemReferendumContract = "AElf.ContractNames.Referendum";
+    public const string SystemTreasuryContract = "AElf.ContractNames.Treasury";
+    public const string SystemAssociationContract = "AElf.ContractNames.Association";
+    public const string SystemTokenConverterContract = "AElf.ContractNames.TokenConverter";
 
-    public static List<string> All = new()
+    public static readonly List<string> All = new()
     {
-        System_BasicContractZero, System_CrossChainContract, System_TokenContract,
-        System_ParliamentContract, System_ConsensusContract, System_ReferendumContract,
-        System_TreasuryContract, System_AssociationContract, System_TokenConverterContract,
+        SystemBasicContractZero, SystemCrossChainContract, SystemTokenContract,
+        SystemParliamentContract, SystemConsensusContract, SystemReferendumContract,
+        SystemTreasuryContract, SystemAssociationContract, SystemTokenConverterContract,
     };
 }
 
@@ -27,6 +26,6 @@ public class SystemContractName
 public class ContractName : SystemContractName
 {
     // add non-system contract name here
-    public static string ProxyAccountContract = "ProxyAccountContract";
+    public const string ProxyAccountContract = "ProxyAccountContract";
 
 }

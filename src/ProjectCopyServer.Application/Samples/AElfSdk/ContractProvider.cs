@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,19 +10,36 @@ using Google.Protobuf;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProjectCopyServer.Common;
 using ProjectCopyServer.Options;
 using ProjectCopyServer.Samples.AElfSdk.Dtos;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Threading;
 
 namespace ProjectCopyServer.Samples.AElfSdk;
 
 public interface IContractProvider
 {
+    Task<(Hash transactionId, Transaction transaction)> CreateTransaction(string chainId, string senderName,
+        string contractName, string methodName,
+        IMessage param);
+
+    Task SendTransactionAsync(string chainId, Transaction transaction);
+
+    Task<T> CallTransactionAsync<T>(string chainId, Transaction transaction) where T : class;
+
+    Task<TransactionResultDto> QueryTransactionResult(string transactionId, string chainId);
 }
 
-public class ContractProvider : IContractProvider
+public class ContractProvider : IContractProvider, ISingletonDependency
 {
+    private readonly JsonSerializerSettings _settings = new JsonSerializerSettings
+    {
+        Converters = new List<JsonConverter> { new AddressConverter() }
+    };
+
     private readonly Dictionary<string, AElfClient> _clients = new();
     private readonly Dictionary<string, SenderAccount> _accounts = new();
     private readonly Dictionary<string, string> _emptyDict = new();
@@ -62,11 +80,11 @@ public class ContractProvider : IContractProvider
     {
         return _accounts.GetOrAdd(accountName, name =>
         {
-            var accountOption = _chainOption.AccountPrivateKey.GetValueOrDefault(name);
+            var accountExists = _chainOption.AccountPrivateKey.TryGetValue(name, out var accountOption);
+            AssertHelper.IsTrue(accountExists, "Account {Name} not exists", name);
             AssertHelper.NotEmpty(accountOption, "Account {Name} not found", name);
             var account = new SenderAccount(accountOption);
-            _logger.LogInformation("init Sender Account: {Name}, {Address}", name,
-                _accounts[name].Address.ToBase58());
+            _logger.LogInformation("init Sender Account: {Name}, {Address}", name, account.Address.ToBase58());
             return account;
         });
     }
@@ -79,7 +97,7 @@ public class ContractProvider : IContractProvider
             var address = _chainOption.ContractAddress
                 .GetValueOrDefault(chainId, _emptyDict)
                 .GetValueOrDefault(name, null);
-            if (address.IsNullOrEmpty() && SystemContractName.All.Contains(name))
+            if (CollectionUtilities.IsNullOrEmpty(address) && SystemContractName.All.Contains(name))
                 address = AsyncHelper
                     .RunSync(() => Client(chainId).GetContractAddressByNameAsync(HashHelper.ComputeFrom(name)))
                     .ToBase58();
@@ -90,18 +108,24 @@ public class ContractProvider : IContractProvider
         });
     }
 
-    public Hash CreateTransaction(string chainId, string senderName, string contractName, string methodName,
-        IMessage param, out Transaction transaction)
+    public Task<TransactionResultDto> QueryTransactionResult(string transactionId, string chainId)
+    {
+        return Client(chainId).GetTransactionResultAsync(transactionId);
+    }
+
+    public async Task<(Hash transactionId, Transaction transaction)> CreateTransaction(string chainId,
+        string senderName, string contractName, string methodName,
+        IMessage param)
     {
         var address = ContractAddress(chainId, contractName);
         var client = Client(chainId);
-        var status = client.GetChainStatusAsync().GetAwaiter().GetResult();
+        var status = await client.GetChainStatusAsync();
         var height = status.BestChainHeight;
         var blockHash = status.BestChainHash;
         var account = Account(senderName);
 
         // create raw transaction
-        transaction = new Transaction
+        var transaction = new Transaction
         {
             From = account.Address,
             To = Address.FromBase58(address),
@@ -113,7 +137,7 @@ public class ContractProvider : IContractProvider
 
         var transactionId = HashHelper.ComputeFrom(transaction.ToByteArray());
         transaction.Signature = account.GetSignatureWith(transactionId.ToByteArray());
-        return transactionId;
+        return (transactionId, transaction);
     }
 
     public async Task SendTransactionAsync(string chainId, Transaction transaction)
@@ -123,5 +147,41 @@ public class ContractProvider : IContractProvider
         {
             RawTransaction = transaction.ToByteArray().ToHex()
         });
+    }
+
+    public async Task<T> CallTransactionAsync<T>(string chainId, Transaction transaction) where T : class
+    {
+        var client = Client(chainId);
+        var rawTransactionResult = await client.ExecuteRawTransactionAsync(new ExecuteRawTransactionDto()
+        {
+            RawTransaction = transaction.ToByteArray().ToHex(),
+            Signature = transaction.Signature.ToHex()
+        });
+
+        if (typeof(T) == typeof(string))
+        {
+            return rawTransactionResult?.Substring(1, rawTransactionResult.Length - 2) as T;
+        }
+
+        return (T)JsonConvert.DeserializeObject(rawTransactionResult, typeof(T), _settings);
+    }
+}
+
+
+public class AddressConverter : JsonConverter
+{
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(Address);
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        return Address.FromBase58(reader.Value as string);
+    }
+
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
     }
 }
