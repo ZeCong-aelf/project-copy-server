@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Orleans.Hosting;
 using Orleans.TestingHost;
+using ProjectCopyServer.Grains;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
 using Volo.Abp.DependencyInjection;
@@ -39,7 +40,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                 {
                     services.AddMemoryCache();
                     services.AddDistributedMemoryCache();
-                    services.AddAutoMapper(typeof(ProjectCopyServerOrleansTestBaseModule).Assembly);
+                    services.AddAutoMapper(typeof(ProjectCopyServerGrainsModule).Assembly);
 
                     services.AddSingleton(typeof(IDistributedCache), typeof(MemoryDistributedCache));
                     // services.AddSingleton(typeof(IDistributedCache<>), typeof(MemoryDistributedCache<>));

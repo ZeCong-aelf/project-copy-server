@@ -12,9 +12,8 @@ public class ProjectCopyServerApplicationAutoMapperProfile : Profile
     public ProjectCopyServerApplicationAutoMapperProfile()
     {
         CreateMap<UserSourceInput, UserGrainDto>().ReverseMap();
-        CreateMap<UserGrainDto, UserState>().ReverseMap();
+        // CreateMap<UserGrainDto, UserState>().ReverseMap();
         CreateMap<UserGrainDto, UserDto>().ReverseMap();
         CreateMap<UserGrainDto, UserInformationEto>().ReverseMap();
-        
     }
 }

@@ -21,10 +21,12 @@ namespace ProjectCopyServer;
 )]
 public class ProjectCopyServerOrleansTestBaseModule : AbpModule
 {
-    private readonly ClusterFixture _fixture = new ClusterFixture();
+    private ClusterFixture _fixture;
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        if (_fixture == null)
+            _fixture = new ClusterFixture();
         context.Services.AddSingleton(_fixture);
         context.Services.AddSingleton<IClusterClient>(sp => _fixture.Cluster.Client);
     }

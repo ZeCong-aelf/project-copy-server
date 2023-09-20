@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using ProjectCopyServer.EntityEventHandler.Core;
+using ProjectCopyServer.Grains;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.AuditLogging.MongoDB;
 using Volo.Abp.AutoMapper;
@@ -25,6 +26,7 @@ public class ProjectCopyServerApplicationTestModule : AbpModule
     {
         base.ConfigureServices(context);
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ProjectCopyServerApplicationModule>(); });
+        // Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ProjectCopyServerGrainsModule>(); });
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ProjectCopyServerEntityEventHandlerCoreModule>(); });
 
         context.Services.AddSingleton(new Mock<IMongoDbContextProvider<IAuditLoggingMongoDbContext>>().Object);
