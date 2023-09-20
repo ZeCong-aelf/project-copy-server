@@ -39,7 +39,7 @@ public class ClusterFixture : IDisposable, ISingletonDependency
                 {
                     services.AddMemoryCache();
                     services.AddDistributedMemoryCache();
-                    services.AddAutoMapper(typeof(ProjectCopyServerOrleansTestModule).Assembly);
+                    services.AddAutoMapper(typeof(ProjectCopyServerOrleansTestBaseModule).Assembly);
 
                     services.AddSingleton(typeof(IDistributedCache), typeof(MemoryDistributedCache));
                     // services.AddSingleton(typeof(IDistributedCache<>), typeof(MemoryDistributedCache<>));

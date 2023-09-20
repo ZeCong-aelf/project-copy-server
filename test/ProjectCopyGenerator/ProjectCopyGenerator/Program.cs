@@ -115,7 +115,7 @@ internal static class Program
 
     private static string ReplaceNames(string input)
     {
-        return input.Replace(_oldName, _newName);
+        return Regex.Replace(input, Regex.Escape(_oldName), _newName, RegexOptions.IgnoreCase);
     }
 
     private static bool ShouldIgnore(string path)

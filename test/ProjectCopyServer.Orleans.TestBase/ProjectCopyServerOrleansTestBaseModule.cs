@@ -14,12 +14,12 @@ namespace ProjectCopyServer;
     typeof(AbpAutofacModule),
     typeof(AbpTestBaseModule),
     typeof(AbpAuthorizationModule),
-    typeof(ProjectCopyServerTestBaseModule),
     typeof(AbpCachingModule),
     typeof(AbpAutoMapperModule),
-    typeof(AbpObjectMappingModule)
+    typeof(AbpObjectMappingModule),
+    typeof(ProjectCopyServerDomainModule)
 )]
-public class ProjectCopyServerOrleansTestModule : AbpModule
+public class ProjectCopyServerOrleansTestBaseModule : AbpModule
 {
     private readonly ClusterFixture _fixture = new ClusterFixture();
 

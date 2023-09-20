@@ -1,10 +1,16 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ProjectCopyServer.Logger;
+using Serilog;
+using Serilog.Events;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 using Volo.Abp.Uow;
 using Volo.Abp.Testing;
+using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace ProjectCopyServer;
 
@@ -13,6 +19,16 @@ namespace ProjectCopyServer;
 public abstract class ProjectCopyServerTestBase<TStartupModule> : AbpIntegratedTest<TStartupModule> where TStartupModule : IAbpModule
 
 {
+    protected readonly ITestOutputHelper _output;
+
+    protected ProjectCopyServerTestBase(ITestOutputHelper output)
+    {
+        _output = output;
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .CreateLogger();
+    }
+
     protected override void SetAbpApplicationCreationOptions(AbpApplicationCreationOptions options)
     {
         options.UseAutofac();

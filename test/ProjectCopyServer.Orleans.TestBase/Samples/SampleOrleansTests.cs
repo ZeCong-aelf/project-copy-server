@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Shouldly;
 using Volo.Abp.Identity;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace ProjectCopyServer.Samples;
 
@@ -15,9 +16,11 @@ public class SampleOrleansTests : ProjectCopyServerOrleansTestBase
 {
     private readonly IIdentityUserRepository _identityUserRepository;
     private readonly IdentityUserManager _identityUserManager;
-
-    public SampleOrleansTests()
+    private readonly ITestOutputHelper _testOutputHelper;
+    
+    public SampleOrleansTests(ITestOutputHelper testOutputHelper) : base(testOutputHelper)
     {
+        _testOutputHelper = testOutputHelper;
         _identityUserRepository = GetRequiredService<IIdentityUserRepository>();
         _identityUserManager = GetRequiredService<IdentityUserManager>();
     }

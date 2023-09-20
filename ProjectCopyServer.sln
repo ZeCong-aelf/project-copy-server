@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectCopyServer.ContractE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectCopyServer.ContractEventHandler.Core", "src\ProjectCopyServer.ContractEventHandler.Core\ProjectCopyServer.ContractEventHandler.Core.csproj", "{3388AFB4-A5FE-460C-A833-6C58E0D85112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectCopyServer.Orleans.Tests", "test\ProjectCopyServer.Orleans.Tests\ProjectCopyServer.Orleans.Tests.csproj", "{0E98561B-9F55-448A-B1D4-777A7F27FC13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectCopyServer.Orleans.TestBase", "test\ProjectCopyServer.Orleans.TestBase\ProjectCopyServer.Orleans.TestBase.csproj", "{0E98561B-9F55-448A-B1D4-777A7F27FC13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using ProjectCopyServer.Grains;
+using ProjectCopyServer.EntityEventHandler.Core;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.AuditLogging.MongoDB;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.EventBus;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.MongoDB;
 using Volo.Abp.Modularity;
@@ -12,9 +13,10 @@ using Volo.Abp.MongoDB;
 namespace ProjectCopyServer;
 
 [DependsOn(
+    typeof(AbpEventBusModule),
     typeof(ProjectCopyServerApplicationModule),
     typeof(ProjectCopyServerApplicationContractsModule),
-    typeof(ProjectCopyServerOrleansTestModule),
+    typeof(ProjectCopyServerOrleansTestBaseModule),
     typeof(ProjectCopyServerDomainTestModule)
 )]
 public class ProjectCopyServerApplicationTestModule : AbpModule
@@ -23,12 +25,10 @@ public class ProjectCopyServerApplicationTestModule : AbpModule
     {
         base.ConfigureServices(context);
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ProjectCopyServerApplicationModule>(); });
-        // Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ProjectCopyServerGrainsModule>(); });
-
+        Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ProjectCopyServerEntityEventHandlerCoreModule>(); });
 
         context.Services.AddSingleton(new Mock<IMongoDbContextProvider<IAuditLoggingMongoDbContext>>().Object);
         context.Services.AddSingleton<IAuditLogRepository, MongoAuditLogRepository>();
         context.Services.AddSingleton<IIdentityUserRepository, MongoIdentityUserRepository>();
-
     }
 }
