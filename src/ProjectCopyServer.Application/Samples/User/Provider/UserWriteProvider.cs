@@ -45,8 +45,7 @@ public class UserWriteProvider: IUserWriteProvider, ISingletonDependency
             AssertHelper.IsTrue(result.Success, "Save user fail.");
             
             // publish event to wright data to ES
-            await _distributedEventBus.PublishAsync(
-                _objectMapper.Map<UserGrainDto, UserInformationEto>(result.Data), false);
+            await _distributedEventBus.PublishAsync(new UserInformationEto(result.Data));
             return _objectMapper.Map<UserGrainDto, UserDto>(result.Data);
         }
         catch (Exception e)

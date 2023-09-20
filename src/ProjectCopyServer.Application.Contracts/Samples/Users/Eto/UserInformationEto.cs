@@ -6,4 +6,8 @@ namespace ProjectCopyServer.Samples.Users.Eto;
 [EventName("UserInformationEto")]
 public class UserInformationEto : AbstractEto<UserGrainDto>
 {
+    public UserInformationEto(UserGrainDto data) : base(data)
+    {
+    }
+    
 }

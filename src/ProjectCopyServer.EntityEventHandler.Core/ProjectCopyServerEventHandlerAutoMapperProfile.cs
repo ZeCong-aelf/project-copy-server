@@ -1,4 +1,5 @@
 using AutoMapper;
+using ProjectCopyServer.Samples.Users;
 using ProjectCopyServer.Samples.Users.Eto;
 using ProjectCopyServer.Users.Eto;
 using ProjectCopyServer.Users.Index;
@@ -10,6 +11,6 @@ public class ProjectCopyServerEventHandlerAutoMapperProfile : Profile
 {
     public ProjectCopyServerEventHandlerAutoMapperProfile()
     {
-        CreateMap<UserInformationEto, UserIndex>();
+        CreateMap<UserGrainDto, UserIndex>();
     }
 }
