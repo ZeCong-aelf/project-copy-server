@@ -44,6 +44,14 @@ public class SamplesController
         return await _sampleService.GetTransactionResultWithCache(transactionId, chainId);
     }
 
+    [HttpGet("lock/transaction")]
+    public async Task<TransactionResultDto> GetLockedTransactionResult(
+        string transactionId = "2ee64abbdfbb1a76fa8084c05e69a8dd1a413059b4e4171eb2b1c106b28052da",
+        string chainId = "AELF")
+    {
+        return await _sampleService.GetTransactionResultWithLock(transactionId, chainId);
+    }
+
     [HttpGet("sdk/userBalance")]
     public async Task<decimal> QueryBalance(
         string address = "JRmBduh4nXWi1aXgdUsj5gJrzeZb2LxmrAbf7W99faZSvoAaE",

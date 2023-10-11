@@ -10,6 +10,9 @@ public interface ISampleService
     // Cache sample
     Task<TransactionResultDto> GetTransactionResultWithCache(string transactionId, string chainId = "AELF");
     
+    // Distributed lock sample
+    Task<TransactionResultDto> GetTransactionResultWithLock(string transactionId, string chainId = "AELF");
+    
     // Http sample
     Task<TransactionResultDto> GetTransactionResultAsync(string transactionId, string chainId = "AELF");
 
