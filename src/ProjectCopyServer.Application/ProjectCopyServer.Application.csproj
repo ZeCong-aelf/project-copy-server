@@ -35,11 +35,6 @@
     <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="5.1.0" />
     <PackageReference Include="GraphQL.Client" Version="5.1.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Samples\DistributedLock\" />
-  </ItemGroup>
   
   <ItemGroup>
     <ContractReference Include="..\..\protobuf\authority_info.proto">

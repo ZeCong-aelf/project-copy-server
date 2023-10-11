@@ -7,7 +7,7 @@ namespace ProjectCopyServer.Samples.GraphQL;
 
 public interface IActivityProvider
 {
-    Task<IndexerSymbols> GetTokenDecimalsAsync(string symbol);
+    Task<IndexerSymbols> GetTokenInfoAsync(string symbol);
 }
 
 public class ActivityProvider : IActivityProvider, ISingletonDependency
@@ -20,7 +20,7 @@ public class ActivityProvider : IActivityProvider, ISingletonDependency
     }
     
     
-    public async Task<IndexerSymbols> GetTokenDecimalsAsync(string symbol)
+    public async Task<IndexerSymbols> GetTokenInfoAsync(string symbol)
     {
         var res = await _graphQlHelper.QueryAsync<IndexerSymbols>(new GraphQLRequest
         {

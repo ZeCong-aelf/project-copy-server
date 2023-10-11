@@ -9,9 +9,9 @@ using ProjectCopyServer.Options;
 using ProjectCopyServer.Samples.HttpClient;
 using Volo.Abp.DependencyInjection;
 
-namespace ProjectCopyServer.Samples.Http.Provider;
+namespace ProjectCopyServer.Samples.Http;
 
-public interface ITransactionProvider
+public interface ITransactionHttpProvider
 {
 
     Task<TransactionResultDto> GetTransactionResultAsync(string transactionId, string chainId = "AELF");
@@ -25,10 +25,10 @@ public static class NodeApi
 }
 
 
-public class TransactionProvider : ITransactionProvider, ISingletonDependency
+public class TransactionHttpProvider : ITransactionHttpProvider, ISingletonDependency
 {
 
-    private readonly ILogger<TransactionProvider> _logger;
+    private readonly ILogger<TransactionHttpProvider> _logger;
     private readonly ChainOption _chainOption;
     private readonly IHttpProvider _httpProvider;
 
@@ -37,7 +37,7 @@ public class TransactionProvider : ITransactionProvider, ISingletonDependency
         ["Accept"] = "application/json"
     };
 
-    public TransactionProvider(IOptions<ChainOption> options, IHttpProvider httpProvider, ILogger<TransactionProvider> logger)
+    public TransactionHttpProvider(IOptions<ChainOption> options, IHttpProvider httpProvider, ILogger<TransactionHttpProvider> logger)
     {
         _chainOption = options.Value;
         _httpProvider = httpProvider;
