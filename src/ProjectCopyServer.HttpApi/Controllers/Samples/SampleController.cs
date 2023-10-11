@@ -30,7 +30,7 @@ public class SamplesController
     
     [HttpGet("http/transaction")]
     public async Task<TransactionResultDto> GetTransactionHttpResult(
-        string transactionId = "4937584b45ab17872e2331e5709e3a81f6b66de569ed3436dcc071f4c58e9c92",
+        string transactionId = "2ee64abbdfbb1a76fa8084c05e69a8dd1a413059b4e4171eb2b1c106b28052da",
         string chainId = "AELF")
     {
         return await _sampleService.GetTransactionResultAsync(transactionId, chainId);
@@ -38,7 +38,7 @@ public class SamplesController
 
     [HttpGet("cache/transaction")]
     public async Task<TransactionResultDto> GetCachedTransactionResult(
-        string transactionId = "4937584b45ab17872e2331e5709e3a81f6b66de569ed3436dcc071f4c58e9c92",
+        string transactionId = "2ee64abbdfbb1a76fa8084c05e69a8dd1a413059b4e4171eb2b1c106b28052da",
         string chainId = "AELF")
     {
         return await _sampleService.GetTransactionResultWithCache(transactionId, chainId);
@@ -46,7 +46,7 @@ public class SamplesController
 
     [HttpGet("sdk/userBalance")]
     public async Task<decimal> QueryBalance(
-        string address = "23GxsoW9TRpLqX1Z5tjrmcRMMSn5bhtLAf4HtPj8JX9BerqTqp",
+        string address = "JRmBduh4nXWi1aXgdUsj5gJrzeZb2LxmrAbf7W99faZSvoAaE",
         string chainId = "AELF")
     {
         return await _sampleService.QueryBalance(chainId, address);
