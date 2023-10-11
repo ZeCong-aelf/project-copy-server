@@ -35,7 +35,7 @@ public class UserDemoController : AbpController
         return await _userAppService.GetById(userId);
     }
 
-    [HttpGet("/page")]
+    [HttpGet("page")]
     public async Task<PageResultDto<UserDto>> QueryUserPager(string address)
     {
         return await _userAppService.QueryUserPagerAsync(new UserQueryRequestDto(0, 10)

@@ -18,19 +18,13 @@ namespace ProjectCopyServer.ContractEventHandler
                 .Build();
 
             Log.Logger = new LoggerConfiguration()
-#if DEBUG
-                .MinimumLevel.Debug()
-#else
-                .MinimumLevel.Information()
-#endif
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
 
             try
             {
-                Log.Information("Starting ProjectCopyServer.ContractEventHandler.");
+                Log.Information("Starting ProjectCopyServer.ContractEventHandler");
                 await CreateHostBuilder(args).RunConsoleAsync();
                 return 0;
             }

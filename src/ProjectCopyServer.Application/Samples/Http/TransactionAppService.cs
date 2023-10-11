@@ -30,7 +30,7 @@ public class TransactionAppService : ITransactionAppService, ISingletonDependenc
     public async Task<decimal> QueryBalance(string chainId, string address)
     {
         var (transactionId, transaction) = await _contractProvider.CreateTransaction(chainId, "User1", 
-            SystemContractName.SystemTokenContract, "GetBalance", new GetBalanceInput
+            SystemContractName.TokenContract, "GetBalance", new GetBalanceInput
             {
                 Owner = Address.FromBase58(address),
                 Symbol = TokenSymbol.ELF,

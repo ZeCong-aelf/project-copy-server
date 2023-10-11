@@ -9,7 +9,7 @@ namespace ProjectCopyServer.Controllers.Samples;
 [RemoteService]
 [Area("app")]
 [ControllerName("SampleDemo")]
-[Route("api/app/query")]
+[Route("api/app/graphql")]
 public class GraphQlController
 {
     private ISymbolService _symbolService;
@@ -21,7 +21,7 @@ public class GraphQlController
 
 
     [HttpGet("decimals")]
-    public async Task<IndexerSymbols> GetTransactionResult(string symbol)
+    public async Task<IndexerSymbols> GetTransactionResult(string symbol = "ELF")
     {
         return await _symbolService.GetTokenDecimalsAsync(symbol);
     }

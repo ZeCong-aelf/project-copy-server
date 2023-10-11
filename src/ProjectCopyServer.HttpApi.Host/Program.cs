@@ -18,20 +18,13 @@ namespace ProjectCopyServer
                 .AddJsonFile("appsettings.json")
                 .Build();
             Log.Logger = new LoggerConfiguration()
-#if DEBUG
-                .MinimumLevel.Debug()
-#else
-                .MinimumLevel.Information()
-#endif
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
 
             try
             {
-                Log.Information("Starting ProjectCopyServer.HttpApi.Host.");
+                Log.Information("Starting ProjectCopyServer.HttpApi.Host");
 
                 var builder = WebApplication.CreateBuilder(args);
                 builder.Host.AddAppSettingsSecretsJson()

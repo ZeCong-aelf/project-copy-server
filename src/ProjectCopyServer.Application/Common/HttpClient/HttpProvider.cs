@@ -90,32 +90,43 @@ public class HttpProvider : IHttpProvider
         var builder = new UriBuilder(fullUrl);
         var query = HttpUtility.ParseQueryString(builder.Query);
         foreach (var item in param ?? new Dictionary<string, string>())
+        {
             query[item.Key] = item.Value;
+        }
+
         builder.Query = query.ToString() ?? string.Empty;
 
         var request = new HttpRequestMessage(method, builder.ToString());
 
         // headers
         foreach (var h in header ?? new Dictionary<string, string>())
+        {
             request.Headers.Add(h.Key, h.Value);
+        }
 
         // body
         if (body != null)
+        {
             request.Content = new StringContent(body, Encoding.UTF8, "application/json");
+        }
 
         // send
         var client = _httpClientFactory.CreateClient();
         var response = await client.SendAsync(request);
         var content = await response.Content.ReadAsStringAsync();
         
-        _logger.LogDebug(
-            "Request To {FullUrl}, query={Query}, statusCode={StatusCode}, body={Body}, resp={Content}", 
-            fullUrl, builder.Query, response.StatusCode, body, content);
-        
-        if (withLog) 
+        if (withLog)
+        {
             _logger.LogInformation(
-            "Request To {FullUrl}, query={Query}, statusCode={StatusCode}, body={Body}, resp={Content}", 
-            fullUrl, builder.Query, response.StatusCode, body, content);
+                "Request To {FullUrl}, query={Query}, statusCode={StatusCode}, body={Body}, resp={Content}", 
+                fullUrl, builder.Query, response.StatusCode, body, content);
+        }
+        else
+        {
+            _logger.LogDebug(
+                "Request To {FullUrl}, query={Query}, statusCode={StatusCode}, body={Body}, resp={Content}", 
+                fullUrl, builder.Query, response.StatusCode, body, content);
+        }
 
         if (!response.IsSuccessStatusCode)
         {
