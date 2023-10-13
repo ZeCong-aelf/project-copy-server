@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Client.Abstractions;
 using Moq;
+using ProjectCopyServer.Common;
 
 namespace ProjectCopyServer;
 
@@ -18,16 +18,16 @@ public partial class ProjectCopyServerApplicationTestBase
     }
 
 
-    protected void MockGraphQlRes<TRes>(TRes returns, string keyword, Dictionary<string, object>? expectedVariables = null)
+    protected void MockGraphQlRes<TRes>(TRes returns, string queryPattern,
+        Dictionary<string, object>? expectedVariables = null)
     {
         var response = new GraphQLResponse<TRes>
         {
             Data = returns,
         };
         _mockGraphQlClient
-            .Setup(o => o.SendQueryAsync<TRes>(It.Is<GraphQLRequest>(req => 
-                    req.Query.Contains(keyword) &&
-                    AreVariablesMatching(req, expectedVariables)), 
+            .Setup(o => o.SendQueryAsync<TRes>(It.Is<GraphQLRequest>(req =>
+                    AreVariablesMatching(req, expectedVariables) && req.Query.Match(queryPattern)),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(response);
     }
@@ -38,7 +38,7 @@ public partial class ProjectCopyServerApplicationTestBase
         foreach (var kvp in expectedVariables)
         {
             var actualValue = GetVariableValue(request.Variables, kvp.Key);
-            if (!object.Equals(actualValue, kvp.Value))
+            if (!Equals(actualValue, kvp.Value))
                 return false;
         }
 
@@ -51,5 +51,8 @@ public partial class ProjectCopyServerApplicationTestBase
         return propertyInfo?.GetValue(variablesObj);
     }
 
-
+    protected static string GraphQlMethodPattern(string methodName)
+    {
+        return @"(?<![.\w])" + methodName + @"\s*(?=\()";
+    }
 }

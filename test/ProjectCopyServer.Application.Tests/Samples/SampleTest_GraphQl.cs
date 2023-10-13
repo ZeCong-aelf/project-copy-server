@@ -16,7 +16,7 @@ public partial class SampleTest
         MockGraphQlRes(new IndexerSymbols
         {
             TokenInfo = new List<SymbolInfo>{ new (){ Symbol = "USDT", Decimals = 2}}
-        }, "tokenInfo");
+        }, GraphQlMethodPattern("tokenInfo"));
         
         var res = await _sampleService.GetTokenInfoAsync("USDT");
         res.ShouldNotBeNull();
@@ -28,7 +28,7 @@ public partial class SampleTest
         MockGraphQlRes(new IndexerSymbols
         {
             TokenInfo = new List<SymbolInfo>{ new (){ Symbol = "USDT", Decimals = 3}}
-        }, "tokenInfo");
+        }, GraphQlMethodPattern("tokenInfo"));
         res = await _sampleService.GetTokenInfoAsync("USDT");
         res.ShouldNotBeNull();
         res.TokenInfo.ShouldNotBeEmpty();
