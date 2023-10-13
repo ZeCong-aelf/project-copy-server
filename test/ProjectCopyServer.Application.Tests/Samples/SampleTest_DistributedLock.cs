@@ -19,8 +19,10 @@ public partial class SampleTest
         var minedTx = new TransactionResultDto { Status = "MINED" };
         MockHttpByPath(HttpMethod.Get, "/api/blockChain/transactionResult", minedTx);
         
-        // mock distributed lock
+        // mock distributed
         MockAbpDistributedLockWithTimeout(2000);
+        
+        // ASYNC invoke first time 
         var taskRes = _sampleService.GetTransactionResultWithLock(HashHelper.ComputeFrom("").ToHex());
         
         // invoke again
