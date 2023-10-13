@@ -14,7 +14,7 @@ using Volo.Abp.DistributedLocking;
 
 namespace ProjectCopyServer.Samples;
 
-public class SampleService : ISampleService, ISingletonDependency
+public class SampleService : ProjectCopyServerAppService, ISampleService
 {
     private readonly IDistributedCache<TransactionResultDto> _seedLockCache;
     private readonly ITransactionHttpProvider _transactionHttpProvider;

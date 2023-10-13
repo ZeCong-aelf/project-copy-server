@@ -29,7 +29,7 @@ public class TransactionHttpProvider : ITransactionHttpProvider, ISingletonDepen
 {
 
     private readonly ILogger<TransactionHttpProvider> _logger;
-    private readonly ChainOption _chainOption;
+    private readonly IOptionsMonitor<ChainOption> _chainOption;
     private readonly IHttpProvider _httpProvider;
 
     private static readonly Dictionary<string, string> AcceptJsonHeader = new()
@@ -37,9 +37,9 @@ public class TransactionHttpProvider : ITransactionHttpProvider, ISingletonDepen
         ["Accept"] = "application/json"
     };
 
-    public TransactionHttpProvider(IOptions<ChainOption> options, IHttpProvider httpProvider, ILogger<TransactionHttpProvider> logger)
+    public TransactionHttpProvider(IOptionsMonitor<ChainOption> options, IHttpProvider httpProvider, ILogger<TransactionHttpProvider> logger)
     {
-        _chainOption = options.Value;
+        _chainOption = options;
         _httpProvider = httpProvider;
         _logger = logger;
     }
@@ -52,7 +52,7 @@ public class TransactionHttpProvider : ITransactionHttpProvider, ISingletonDepen
     /// <returns></returns>
     public async Task<TransactionResultDto> GetTransactionResultAsync(string transactionId, string chainId = "AELF")
     {
-        var endpoint = _chainOption.NodeApis.GetValueOrDefault(chainId);
+        var endpoint = _chainOption.CurrentValue.NodeApis.GetValueOrDefault(chainId);
         AssertHelper.NotEmpty(endpoint, "chainId {ChainId} node api not found", chainId);
         
         return await _httpProvider.Invoke<TransactionResultDto>(endpoint, NodeApi.TransactionResult,

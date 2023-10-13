@@ -3,6 +3,7 @@ using Moq;
 using ProjectCopyServer.EntityEventHandler.Core;
 using ProjectCopyServer.EntityEventHandler.Core.Samples.User;
 using ProjectCopyServer.Grains;
+using ProjectCopyServer.Samples;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.AuditLogging.MongoDB;
 using Volo.Abp.AutoMapper;
