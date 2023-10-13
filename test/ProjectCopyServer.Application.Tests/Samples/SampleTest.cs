@@ -24,6 +24,7 @@ public partial class SampleTest : ProjectCopyServerApplicationTestBase
         services.AddSingleton(MockHttpFactory());
         services.AddSingleton(MockGraphQl());
         services.AddSingleton(MockChainOption());
+        services.AddSingleton(MockDistributeLock());
     }
 
 
