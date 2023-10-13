@@ -38,7 +38,7 @@ public partial class ProjectCopyServerApplicationTestBase
             {
                 var response = new HttpResponseMessage(HttpStatusCode.OK);
                 response.Content = new StringContent(respData, Encoding.UTF8, "application/json");
-                // Output.WriteLine($"Mock Http {method} to {path}, resp={response}");
+                Output.WriteLine($"Mock Http {method} to {path}, resp={response}");
                 return Task.FromResult(response);
             });
     }
