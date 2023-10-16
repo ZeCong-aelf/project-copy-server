@@ -4,6 +4,7 @@ using AElf.Contracts.MultiToken;
 using AElf.Types;
 using Microsoft.Extensions.Caching.Distributed;
 using ProjectCopyServer.Common;
+using ProjectCopyServer.Common.AElfSdk;
 using ProjectCopyServer.Samples.AElfSdk;
 using ProjectCopyServer.Samples.AElfSdk.Dtos;
 using ProjectCopyServer.Samples.GraphQL;

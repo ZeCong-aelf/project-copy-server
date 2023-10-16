@@ -11,14 +11,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using ProjectCopyServer.Common;
 using ProjectCopyServer.Options;
 using ProjectCopyServer.Samples.AElfSdk.Dtos;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Threading;
 
-namespace ProjectCopyServer.Samples.AElfSdk;
+namespace ProjectCopyServer.Common.AElfSdk;
 
 public interface IContractProvider
 {
