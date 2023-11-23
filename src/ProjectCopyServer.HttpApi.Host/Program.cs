@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProjectCopyServer.Extension;
 using Serilog;
 using Serilog.Events;
 
@@ -27,10 +28,12 @@ namespace ProjectCopyServer
                 Log.Information("Starting ProjectCopyServer.HttpApi.Host");
 
                 var builder = WebApplication.CreateBuilder(args);
+                builder.Configuration.AddJsonFile("apollo.appsettings.json");
                 builder.Host.AddAppSettingsSecretsJson()
+                    .UseApollo()
                     .UseAutofac()
                     .UseSerilog();
-                // builder.Services.AddSignalR();
+
                 await builder.AddApplicationAsync<ProjectCopyServerHttpApiHostModule>();
                 var app = builder.Build();
                 await app.InitializeApplicationAsync();

@@ -19,6 +19,7 @@ using Orleans.Configuration;
 using Orleans.Providers.MongoDB.Configuration;
 using StackExchange.Redis;
 using ProjectCopyServer.Grains;
+using ProjectCopyServer.Middleware;
 using ProjectCopyServer.MongoDB;
 using ProjectCopyServer.Options;
 using Volo.Abp;
@@ -261,7 +262,8 @@ namespace ProjectCopyServer
             app.UseSwagger();
             app.UseAbpSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support APP API"); });
             // }
-
+            
+            app.UseMiddleware<DeviceInfoMiddleware>();
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();
             app.UseUnitOfWork();
