@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 
 namespace ProjectCopyServer.Common;
@@ -25,6 +26,11 @@ public static class StringHelper
     public static bool NotNullOrEmpty([CanBeNull] this string source)
     {
         return !source.IsNullOrEmpty();
+    }
+    
+    public static bool Match([CanBeNull] this string source, string pattern)
+    {
+        return source.IsNullOrEmpty() ? false : Regex.IsMatch(source, pattern);
     }
     
     public static double SafeToDouble(this string s, double defaultValue = 0)

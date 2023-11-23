@@ -280,3 +280,4 @@ appsettings.json
 .git/
 .DS_Store
 **/.DS_Store
+**/Logs
