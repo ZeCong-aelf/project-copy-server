@@ -6,7 +6,7 @@ using GraphQL.Client.Abstractions;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 
-namespace ProjectCopyServer.Samples.GraphQL;
+namespace ProjectCopyServer.Common.GraphQL;
 
 public interface IGraphQlHelper
 {

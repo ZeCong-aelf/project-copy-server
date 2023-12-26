@@ -4,7 +4,7 @@ using AElf.Cryptography.ECDSA;
 using AElf.Types;
 using Google.Protobuf;
 
-namespace ProjectCopyServer.Samples.AElfSdk.Dtos;
+namespace ProjectCopyServer.Common.AElfSdk.Dtos;
 
 public class SenderAccount
 {

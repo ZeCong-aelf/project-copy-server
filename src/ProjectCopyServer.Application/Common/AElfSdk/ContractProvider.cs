@@ -11,8 +11,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using ProjectCopyServer.Common.AElfSdk.Dtos;
 using ProjectCopyServer.Options;
-using ProjectCopyServer.Samples.AElfSdk.Dtos;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Threading;
 

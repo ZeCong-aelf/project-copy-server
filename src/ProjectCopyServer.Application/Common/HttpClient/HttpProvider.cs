@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using ProjectCopyServer.Samples.HttpClient;
 using Volo.Abp.DependencyInjection;
 
 namespace ProjectCopyServer.Common.HttpClient;
@@ -16,37 +15,37 @@ namespace ProjectCopyServer.Common.HttpClient;
 
 public interface IHttpProvider : ISingletonDependency
 {
-    Task<T> Invoke<T>(string domain, ApiInfo apiInfo,
+    Task<T> InvokeAsync<T>(string domain, ApiInfo apiInfo,
         Dictionary<string, string> pathParams = null,
         Dictionary<string, string> param = null,
         string body = null,
-        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withLog = false, bool debugLog = true);
+        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withInfoLog = false, bool withDebugLog = true);
 
-    Task<string> Invoke(string domain, ApiInfo apiInfo,
+    Task<string> InvokeAsync(string domain, ApiInfo apiInfo,
         Dictionary<string, string> pathParams = null,
         Dictionary<string, string> param = null,
         string body = null,
-        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withLog = false, bool debugLog = true);
+        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withInfoLog = false, bool withDebugLog = true);
 
-    Task<string> Invoke(HttpMethod method, string url,
+    Task<string> InvokeAsync(HttpMethod method, string url,
         Dictionary<string, string> pathParams = null,
         Dictionary<string, string> param = null,
         string body = null,
-        Dictionary<string, string> header = null, bool withLog = false, bool debugLog = true);
+        Dictionary<string, string> header = null, bool withInfoLog = false, bool withDebugLog = true);
 
-    Task<HttpResponseMessage> InvokeResponse(HttpMethod method, string url,
+    Task<HttpResponseMessage> InvokeResponseAsync(HttpMethod method, string url,
         Dictionary<string, string> pathParams = null,
         Dictionary<string, string> param = null,
         string body = null,
         Dictionary<string, string> header = null,
         bool withLog = false, bool debugLog = true);
 
-    Task<HttpResponseMessage> InvokeResponse(string domain, ApiInfo apiInfo,
+    Task<HttpResponseMessage> InvokeResponseAsync(string domain, ApiInfo apiInfo,
         Dictionary<string, string> pathParams = null,
         Dictionary<string, string> param = null,
         string body = null,
-        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withLog = false,
-        bool debugLog = true);
+        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withInfoLog = false,
+        bool withDebugLog = true);
 }
 
 public class HttpProvider : IHttpProvider
@@ -65,13 +64,13 @@ public class HttpProvider : IHttpProvider
         _logger = logger;
     }
 
-    public async Task<T> Invoke<T>(string domain, ApiInfo apiInfo,
+    public async Task<T> InvokeAsync<T>(string domain, ApiInfo apiInfo,
         Dictionary<string, string> pathParams = null,
         Dictionary<string, string> param = null,
         string body = null,
-        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withLog = false, bool debugLog = true)
+        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withInfoLog = false, bool withDebugLog = true)
     {
-        var resp = await Invoke(apiInfo.Method, domain + apiInfo.Path, pathParams, param, body, header, withLog, debugLog);
+        var resp = await InvokeAsync(apiInfo.Method, domain + apiInfo.Path, pathParams, param, body, header, withInfoLog, withDebugLog);
         try
         {
             return JsonConvert.DeserializeObject<T>(resp, settings ?? DefaultJsonSettings);
@@ -82,32 +81,32 @@ public class HttpProvider : IHttpProvider
         }
     }
 
-    public async Task<HttpResponseMessage> InvokeResponse(string domain, ApiInfo apiInfo,
+    public async Task<HttpResponseMessage> InvokeResponseAsync(string domain, ApiInfo apiInfo,
         Dictionary<string, string> pathParams = null,
         Dictionary<string, string> param = null,
         string body = null,
-        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withLog = false, bool debugLog = true)
+        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withInfoLog = false, bool withDebugLog = true)
     {
-        return await InvokeResponse(apiInfo.Method, domain + apiInfo.Path, pathParams, param, body, header, withLog, debugLog);
+        return await InvokeResponseAsync(apiInfo.Method, domain + apiInfo.Path, pathParams, param, body, header, withInfoLog, withDebugLog);
     }
     
-    public async Task<string> Invoke(string domain, ApiInfo apiInfo,
+    public async Task<string> InvokeAsync(string domain, ApiInfo apiInfo,
         Dictionary<string, string> pathParams = null,
         Dictionary<string, string> param = null,
         string body = null,
-        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withLog = false, bool debugLog = true)
+        Dictionary<string, string> header = null, JsonSerializerSettings settings = null, bool withInfoLog = false, bool withDebugLog = true)
     {
-        return await Invoke(apiInfo.Method, domain + apiInfo.Path, pathParams, param, body, header, withLog, debugLog);
+        return await InvokeAsync(apiInfo.Method, domain + apiInfo.Path, pathParams, param, body, header, withInfoLog, withDebugLog);
     }
 
-    public async Task<string> Invoke(HttpMethod method, string url,
+    public async Task<string> InvokeAsync(HttpMethod method, string url,
         Dictionary<string, string> pathParams = null,
         Dictionary<string, string> param = null,
         string body = null,
         Dictionary<string, string> header = null,
-        bool withLog = false, bool debugLog = true)
+        bool withInfoLog = false, bool withDebugLog = true)
     {
-        var response = await InvokeResponse(method, url, pathParams, param, body, header, withLog, debugLog);
+        var response = await InvokeResponseAsync(method, url, pathParams, param, body, header, withInfoLog, withDebugLog);
         var content = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
@@ -117,7 +116,7 @@ public class HttpProvider : IHttpProvider
         return content;
     }
 
-    public async Task<HttpResponseMessage> InvokeResponse(HttpMethod method, string url,
+    public async Task<HttpResponseMessage> InvokeResponseAsync(HttpMethod method, string url,
             Dictionary<string, string> pathParams = null,
             Dictionary<string, string> param = null,
             string body = null,
@@ -160,8 +159,8 @@ public class HttpProvider : IHttpProvider
                 fullUrl, response.StatusCode, time, builder.Query, request.Headers.ToString(), body, content);
         else 
             _logger.LogDebug(
-                "Request To {FullUrl}, statusCode={StatusCode}, time={Time}, query={Query}, header={Header}",
-                fullUrl, response.StatusCode, time, builder.Query, request.Headers.ToString());
+                "Request To {FullUrl}, statusCode={StatusCode}, time={Time}, query={Query}",
+                fullUrl, response.StatusCode, time, builder.Query);
         return response;
     }
     

@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using ProjectCopyServer.Common;
 using ProjectCopyServer.Common.HttpClient;
 using ProjectCopyServer.Options;
-using ProjectCopyServer.Samples.HttpClient;
 using Volo.Abp.DependencyInjection;
 
 namespace ProjectCopyServer.Samples.Http;
@@ -55,13 +54,13 @@ public class TransactionHttpProvider : ITransactionHttpProvider, ISingletonDepen
         var endpoint = _chainOption.CurrentValue.NodeApis.GetValueOrDefault(chainId);
         AssertHelper.NotEmpty(endpoint, "chainId {ChainId} node api not found", chainId);
         
-        return await _httpProvider.Invoke<TransactionResultDto>(endpoint, NodeApi.TransactionResult,
+        return await _httpProvider.InvokeAsync<TransactionResultDto>(endpoint, NodeApi.TransactionResult,
             header: AcceptJsonHeader,
             param: new Dictionary<string, string>
             {
                 ["transactionId"] = transactionId
             },
-            withLog: true
+            withInfoLog: true
         );
     }
     

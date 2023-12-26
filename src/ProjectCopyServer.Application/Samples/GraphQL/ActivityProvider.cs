@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using GraphQL;
+using ProjectCopyServer.Common.GraphQL;
 using Volo.Abp.DependencyInjection;
 
 namespace ProjectCopyServer.Samples.GraphQL;

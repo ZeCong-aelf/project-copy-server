@@ -5,12 +5,10 @@ using AElf.Types;
 using Microsoft.Extensions.Caching.Distributed;
 using ProjectCopyServer.Common;
 using ProjectCopyServer.Common.AElfSdk;
-using ProjectCopyServer.Samples.AElfSdk;
-using ProjectCopyServer.Samples.AElfSdk.Dtos;
+using ProjectCopyServer.Common.AElfSdk.Dtos;
 using ProjectCopyServer.Samples.GraphQL;
 using ProjectCopyServer.Samples.Http;
 using Volo.Abp.Caching;
-using Volo.Abp.DependencyInjection;
 using Volo.Abp.DistributedLocking;
 
 namespace ProjectCopyServer.Samples;

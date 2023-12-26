@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 
-namespace ProjectCopyServer.Samples.AElfSdk.Dtos;
+namespace ProjectCopyServer.Common.AElfSdk.Dtos;
 
 public static class SystemContractName
 {

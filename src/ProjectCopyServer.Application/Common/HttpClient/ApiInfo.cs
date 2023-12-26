@@ -1,6 +1,6 @@
 using System.Net.Http;
 
-namespace ProjectCopyServer.Samples.HttpClient;
+namespace ProjectCopyServer.Common.HttpClient;
 
 public class ApiInfo
 {
