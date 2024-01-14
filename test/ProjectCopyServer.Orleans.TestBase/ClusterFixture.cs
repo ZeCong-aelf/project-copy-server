@@ -86,9 +86,4 @@ public class ClusterFixture : IDisposable, ISingletonDependency
         public IMapper Mapper { get; set; }
     }
 
-    // private class TestClientBuilderConfigurator : IClientBuilderConfigurator
-    // {
-    //     public void Configure(IConfiguration configuration, IClientBuilder clientBuilder) => clientBuilder
-    //         .AddSimpleMessageStreamProvider(CAServerApplicationConsts.MessageStreamName);
-    // }
 }

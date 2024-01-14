@@ -1,4 +1,4 @@
-namespace CAServer;
+namespace ProjectCopyServer.Common;
 
 public enum DeviceType
 {
